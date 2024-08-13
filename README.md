@@ -46,3 +46,5 @@ To get started with setting up the project, follow these steps:
 ## Link to other repositories
 - AWS SES Worker - https://github.com/RitwikKapoor/SES-Worker-Medicify
 - ML-APIs - https://github.com/RitwikKapoor/Medicify-Flask-API
+
+# Note: You will not receive the email since AWS SES is in sandboxed environment and only verifired emails can receive the email
