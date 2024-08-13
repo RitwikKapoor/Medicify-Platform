@@ -41,3 +41,8 @@ To get started with setting up the project, follow these steps:
    ```bash
    docker-compose -f docker-compose.dev.yml up
    ```
+
+
+## Link to other repositories
+- AWS SES Worker - https://github.com/RitwikKapoor/SES-Worker-Medicify
+- ML-APIs - https://github.com/RitwikKapoor/Medicify-Flask-API
