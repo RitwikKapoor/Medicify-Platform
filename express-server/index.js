@@ -27,30 +27,19 @@ mongoose
   })
   .catch((error) => console.log(`MongoDB connection error: ${error.message}`));
 
-export const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  username: process.env.REDIS_USERNAME,
-  password: process.env.REDIS_PASSWORD,
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
-
-export const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.FRONTEND_URL,
-  })
-);
+if (process.env.NODE_ENV === "development") {
+  app.use(
+    cors({
+      credentials: true,
+      origin: process.env.FRONTEND_URL,
+    })
+  );
+}
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -65,16 +54,27 @@ app.use("/api/user", userRouter);
 app.use("/api/appoint", appointmentRouter);
 app.use("/api/review", reviewRouter);
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
-
-if (process.env.NODE_ENV === "developement") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/dist")));
 
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
   });
 }
+
+export const redis = new Redis({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  username: process.env.REDIS_USERNAME,
+  password: process.env.REDIS_PASSWORD,
+  // tls: {
+  //   rejectUnauthorized: false,
+  // },
+});
+
+export const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+

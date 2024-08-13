@@ -11,11 +11,12 @@ const emailQueue = new Queue("email-queue", {
     port: process.env.REDIS_PORT,
     username: process.env.REDIS_USERNAME,
     password: process.env.REDIS_PASSWORD,
-    tls: {
-      rejectUnauthorized: false,
-    },
+    // tls: {
+    //   rejectUnauthorized: false,
+    // },
   },
 });
+
 
 export const bookAppointment = async (req, res) => {
   const { date, time, email } = req.body;
@@ -71,7 +72,7 @@ export const handleRazorpayWebhook = async (req, res) => {
 
         await emailQueue.add(`email ${Date.now()}`, {
           email: email,
-          text: `Payment Successful. Your appointment is confirmed for ${date} at ${time}`,
+          text: `Payment Successful. Your appointment is confirmed for ${d} at ${time}`,
         });
 
         return res.status(201).send({ msg: "Appointment Booked" });
